@@ -7,6 +7,11 @@ import time
 class Client:
     def __init__(self):
         self.serial = self.getSerial()
+        self.radio = {
+            "channel": 0,
+            "length": 250
+        }
+        radio.config(**self.radio)
 
 
     def getSerial(self):
@@ -27,5 +32,5 @@ class Client:
 
 CLIENT = Client()
 
-
-CLIENT.image("YES")
+while True:
+    message = radio.receive()
