@@ -23,6 +23,7 @@
     * 2-`ID` - Data too long, await transmission `ID` to concatenate
     * 3 - Preset instruction
     * 4 - Display
+    * 5 - End of concatenated data
 
 * data - Self-explanatory.
 
