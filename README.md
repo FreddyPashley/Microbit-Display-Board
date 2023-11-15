@@ -20,10 +20,8 @@
 
     * 0 - Reply not expected
     * 1 - Reply expected
-    * 2-`ID` - Data too long, await transmission `ID` to concatenate
-    * 3 - Preset instruction
-    * 4 - Display
-    * 5 - End of concatenated data
+    * 2 - Preset instruction
+    * 3 - Display
 
 * data - Self-explanatory.
 
