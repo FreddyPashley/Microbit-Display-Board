@@ -16,7 +16,7 @@
 
 * id - Transmission ID. A random integer value to minimise the likelyhood of identical IDs at the same time.
 
-* status_code - If the data is too long for a single radio message, there will be two transmissions with different IDs and a status code to notify the receiver that the two pieces of data must be concatenated. This instance would occur for large messages. Codes can be concatenated with `,` for multiple codes per transmission.
+* status_code - Aids in the interpretation of the transmission. Mainly used for distinguishing between instructions and display data.
 
     * 0 - Reply not expected
     * 1 - Reply expected

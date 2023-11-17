@@ -1,4 +1,4 @@
-VERSION = "v0.1"
+VERSION = "v0.2"
 
 from microbit import *
 import radio
@@ -12,6 +12,7 @@ class Client:
         radio.config(**radio_config)
         radio.off()
         self.serial = str(self.calculate_serial_number())
+        self.location = None
 
     def calculate_serial_number(self):
         return hex(machine.mem32[268435556] & 4294967295)
@@ -27,7 +28,7 @@ while True:
         message_data = message.split(":")
         if len(message_data) == 4:  # Is the received transmission useful to us?
             recipient, msg_id, status_code, data = message_data
-            if recipient == client.serial:  # Is the received transmission for us?
+            if recipient in [client.serial, "ALL"]:  # Is the received transmission for us?
                 msg_id = int(msg_id)
                 status_code = int(status_code)
                 if status_code == 3:  # Display data
@@ -37,7 +38,7 @@ while True:
                         display.clear()
                     elif data == "serial":
                         data.scroll(client.serial)
-                    elif data == "id-mode":
+                    elif data.startswith("id-mode"):
                         pass  # To be implemented
                     else:
                         display.show(Image.ANGRY)  # Instruction is confusing... 
