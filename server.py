@@ -1,10 +1,10 @@
-DATA = "serial"  # Edited by user to trigger display
+DATA = "duck"  # Edited by user to trigger display
 BOTS = [1, 1]  # Edited if necessary to change number of expected bots (rows, bots_per_row)
 """
 Valid instructions:
 clear - 'Turns off' the display
 serial - All bots display their serial number for manual identification
-id-mode - System for remembering where bots are for future use
+(image_name) - An image existing in the microbit library
 """
 
 VERSION = "v0.4"
