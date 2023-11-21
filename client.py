@@ -19,7 +19,7 @@ class Client:
         return hex(machine.mem32[268435556] & 4294967295)
     
     def send(self, text:str, msg_id:int=None):
-        msg_id = random.randint(3, 10000) if msg_id is None else msg_id
+        msg_id = random.randint(1, 10000) if msg_id is None else msg_id
         # Format text with locations here
         to_send = ["SERVER", str(msg_id), 0, text]
         radio.send(":".join([str(i) for i in to_send]))
@@ -45,19 +45,5 @@ while True:
                         display.clear()
                     elif data == "serial":
                         display.scroll(client.serial)
-                    elif data.startswith("id-mode"):
-                        while True:
-                            display.scroll("ID")
-                            if button_a.was_pressed():
-                                client.send(str(client.serial), msg_id=msg_id)
-                                break
-                            if button_b.was_pressed():
-                                client.send(str(client.serial)+"-", msg_id=msg_id)
-                                break
-                        display.show(Image.YES)
-                    elif data.startswith("self-loc"):
-                        coordinates = data.strip("self-loc,").split(",")
-                        row, bot_in_row = [int(i) for i in coordinates]
-                        client.location = {"row": row, "bot_in_row": bot_in_row}
                     else:
                         display.show(Image.ANGRY)  # Instruction is confusing... 
