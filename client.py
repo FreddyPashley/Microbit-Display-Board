@@ -1,4 +1,4 @@
-VERSION = "v0.2"
+VERSION = "v0.3"
 
 from microbit import *
 import radio
@@ -37,7 +37,7 @@ while True:
                     if data == "clear":
                         display.clear()
                     elif data == "serial":
-                        data.scroll(client.serial)
+                        display.scroll(client.serial)
                     elif data.startswith("id-mode"):
                         pass  # To be implemented
                     else:

@@ -1,5 +1,4 @@
-DATA = ""  # Edited by user to trigger display
-INSTRUCTION = True  # True/False for display vs instruction
+DATA = "serial"  # Edited by user to trigger display
 """
 Valid instructions:
 clear - 'Turns off' the display
@@ -7,7 +6,8 @@ serial - All bots display their serial number for manual identification
 id-mode - System for remembering where bots are for future use
 """
 
-VERSION = "v0.2"
+VERSION = "v0.3"
+INSTRUCTIONS = ["clear", "serial", "id-mode"]
 
 from microbit import *
 import radio
@@ -29,12 +29,12 @@ class Server:
     
     def instruct(self, instruction:str):
         msg_id = random.randint(1, 10000)
-        radio.send(f"ALL:{msg_id}:2:{instruction}")
+        radio.send("ALL:"+str(msg_id)+":2:"+instruction)
 
     def display(self, text:str):
         msg_id = random.randint(1, 10000)
         # Format text with locations here
-        radio.send(f"ALL:{msg_id}:3:{text}")  # Change recipients from ALL to specific serials after id-mode implementation
+        radio.send("ALL:"+str(msg_id)+":3:"+text)  # Change recipients from ALL to specific serials after id-mode implementation
 
 
 # Main
@@ -45,7 +45,7 @@ if DATA != "":
     if DATA == "id-mode":
         pass  # To be implemented later
     else:
-        if INSTRUCTION:
+        if DATA in INSTRUCTIONS:
             server.instruct(DATA)
         else:
             server.display(DATA)
