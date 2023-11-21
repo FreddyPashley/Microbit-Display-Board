@@ -39,8 +39,8 @@ while True:
                 msg_id = int(msg_id)
                 status_code = int(status_code)
                 if status_code == 3:  # Display data
-                    if hasattr(Image, data):
-                        displays.how(getattr(Image, data))
+                    if hasattr(Image, data.upper()):
+                        display.show(getattr(Image, data.upper()))
                     else:
                         display.show(data)
                 elif status_code == 2:  # Pre-set instruction
