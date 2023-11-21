@@ -19,7 +19,7 @@ class Client:
         return hex(machine.mem32[268435556] & 4294967295)
     
     def send(self, text:str, msg_id:int=None):
-        msg_id = random.randint(3, 10_000) if msg_id is None else msg_id
+        msg_id = random.randint(3, 10000) if msg_id is None else msg_id
         # Format text with locations here
         to_send = ["SERVER", str(msg_id), 0, text]
         radio.send(":".join([str(i) for i in to_send]))

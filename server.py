@@ -26,7 +26,7 @@ class Server:
         self.bots = [[]]
 
     def calculate_serial_number(self):
-        return hex(machine.mem32[268_435_556] & 4_294_967_295)
+        return hex(machine.mem32[268435556] & 4294967295)
     
     def instruct(self, recipient:str="ALL", instruction:str="clear"):
         if instruction == "id-mode":
@@ -36,12 +36,12 @@ class Server:
         elif instruction.startswith("gather-loc"):
             msg_id = 3
         else:
-            msg_id = random.randint(4, 10_000)
+            msg_id = random.randint(4, 10000)
         to_send = [recipient, str(msg_id), 2, instruction]
         radio.send(":".join([str(i) for i in to_send]))
 
     def display(self, recipient:str="ALL", text:str="TEST"):
-        msg_id = random.randint(3, 10_000)
+        msg_id = random.randint(3, 10000)
         # Format text with locations here
         to_send = [recipient, str(msg_id), 3, text]
         radio.send(":".join([str(i) for i in to_send]))
