@@ -1,4 +1,4 @@
-DATA = "duck"  # Edited by user to trigger display
+DATA = "Hi [duck]"  # Edited by user to trigger display
 BOTS = [1, 1]  # Edited if necessary to change number of expected bots (rows, bots_per_row)
 """
 Valid instructions:
@@ -7,7 +7,7 @@ serial - All bots display their serial number for manual identification
 (image_name) - An image existing in the microbit library
 """
 
-VERSION = "v0.4"
+VERSION = "v0.5"
 INSTRUCTIONS = ["clear", "serial"]
 
 from microbit import *
@@ -23,7 +23,9 @@ class Server:
         radio.config(**radio_config)
         radio.off()
         self.serial = str(self.calculate_serial_number())
-        self.bots = [[]]
+        self.bots = [
+            ["0x237e64e7", "0xbb1e263", "0x4f020d8b", "0x67cf561a"]
+        ]  # Add serials
 
     def calculate_serial_number(self):
         return hex(machine.mem32[268435556] & 4294967295)
@@ -35,9 +37,29 @@ class Server:
 
     def display(self, recipient:str="ALL", text:str="TEST"):
         msg_id = random.randint(1, 10000)
-        # Format text with locations here
-        to_send = [recipient, str(msg_id), 3, text]
-        radio.send(":".join([str(i) for i in to_send]))
+        text_list = []
+        image_name = ""
+        detecting_image = False
+        for character in text:
+            if character == "[":
+                detecting_image = True
+            elif character == "]":
+                detecting_image = False
+                text_list.append(image_name)
+                image_name = ""
+            elif detecting_image:
+                image_name += character
+            else:
+                text_list.append(character)
+        row = 0
+        for counter, character in enumerate(text_list):
+            if counter == 20:
+                counter = 0
+                row += 1
+                if row == 3: break
+            recipient = self.bots[row][counter]
+            to_send = [recipient, str(msg_id), 3, character]
+            radio.send(":".join([str(i) for i in to_send]))
 
 
 # Main
