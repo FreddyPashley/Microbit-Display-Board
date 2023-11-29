@@ -1,4 +1,4 @@
-VERSION = "v0.5"
+VERSION = "v0.6"
 
 from microbit import *
 import radio
@@ -39,7 +39,10 @@ while True:
                 msg_id = int(msg_id)
                 status_code = int(status_code)
                 if status_code == 3:  # Display data
-                    if hasattr(Image, data.upper()):
+                    if data.startswith("block-"):
+                        brightness = data.strip("block-")
+                        display.show(Image(":".join([brightness*5 for i in range(5)])))
+                    elif hasattr(Image, data.upper()):
                         display.show(getattr(Image, data.upper()))
                     else:
                         display.show(data)
