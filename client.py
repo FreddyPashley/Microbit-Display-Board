@@ -1,4 +1,4 @@
-VERSION = "v0.6"
+VERSION = "v0.7"
 
 from microbit import *
 import radio
@@ -52,4 +52,4 @@ while True:
                     elif data == "serial":
                         display.scroll(client.serial)
                     else:
-                        display.show(Image.ANGRY)  # Instruction is confusing... 
+                        display.show(Image.ANGRY)  # Instruction is unknown and confusing... 

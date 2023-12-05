@@ -1,14 +1,14 @@
-DATA = ["Hi [duck]", "Test"]  # Edited by user to trigger display
-SWIPE_INTERVAL = 3  # Seconds for swipe to finish
-SWIPE_SHOW = 1  # Seconds for each swipe block to move
+DATA = ["Helloworld", "[happy][duck][happy][duck][happy][duck][happy][duck][happy][duck]"]
+SWIPE_INTERVAL = 1.5  # Seconds for swipe to finish
+SWIPE_SHOW = .1  # Seconds for each swipe block to move
 """
 Valid instructions:
 clear - 'Turns off' the display
 serial - All bots display their serial number for manual identification
-(image_name) - An image existing in the microbit library
+[image_name] - An image existing in the microbit library
 """
 
-VERSION = "v0.6"
+VERSION = "v0.7"
 INSTRUCTIONS = ["clear", "serial"]
 
 from microbit import *
@@ -24,9 +24,14 @@ class Server:
         radio.config(**radio_config)
         radio.off()
         self.serial = str(self.calculate_serial_number())
+        # self.bots = [
+        #     ["0x7b9080a4", "0x6b9a492c", "0x5cbd7385", "0x3d85ecee", "0x5415f436", "0xec2990f2", "0xd85ab8c2", "0x5a10a2c0", "0x81deabbe", "0xb1d38abc", "0x7581dc19", "0xe7c04445", "0x85fb979d", "0x6901229e", "0xbf66ffb5", "0xf7e149c0", "0xa9d48785", "0x99904c2", "0x433cea7c", "0x58058793"],
+        #     ["0x2c58cda", "0x2600e830", "0x177727a6", "0x7ad288b7", "0x964f8165", "0x1f96fdea", "0xab8b63ca", "0x9b645506", "0xb0005931", "0x2347e7f6"]
+        # ]  # Add more serials...
         self.bots = [
-            ["0x237e64e7", "0xbb1e263", "0x4f020d8b", "0x67cf561a"]
-        ]  # Add serials
+            ["0x7b9080a4", "0x6b9a492c", "0x5cbd7385", "0x3d85ecee", "0x5415f436"],
+            ["0xec2990f2", "0xd85ab8c2", "0x5a10a2c0", "0x81deabbe", "0xb1d38abc"]
+        ]  # For prototype
         self.data_pos = 0
 
     def calculate_serial_number(self):
@@ -109,18 +114,7 @@ radio.on()
 server.instruct()
 
 if DATA != []:
-    if DATA in INSTRUCTIONS:
+    if DATA[0] in INSTRUCTIONS:
         server.instruct(instruction=DATA[0])
     else:
         server.display(text=DATA)
-
-while True:
-    message = radio.receive()
-    if message:  # Has a message been detected?
-        message_data = message.split(":")
-        if len(message_data) == 4:  # Is the received transmission useful to us?
-            recipient, msg_id, status_code, data = message_data
-            if recipient == "SERVER":  # Is the received transmission for us?
-                msg_id = int(msg_id)
-                status_code = int(status_code)
-                # Do stuff with transmission (self-id when it's made)
