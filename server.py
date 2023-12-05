@@ -1,6 +1,5 @@
 DATA = ["Helloworld", "[happy][duck][happy][duck][happy][duck][happy][duck][happy][duck]"]  # Messages to display
-SWIPE_INTERVAL = 1.5  # Seconds for swipe to finish
-SWIPE_SHOW = .1  # Seconds for each swipe block to move
+SWIPE_INTERVAL = 5  # Seconds for each message to display for
 
 """
 Valid instructions:
@@ -15,7 +14,7 @@ import machine
 import random
 import time
 
-VERSION = "v0.8"
+VERSION = "v0.9"
 INSTRUCTIONS = ["clear", "serial"]
 
 
@@ -34,6 +33,8 @@ class Server:
         """
         self.bots = [["0x7b9080a4", "0x6b9a492c", "0x5cbd7385", "0x3d85ecee", "0x5415f436"],
                     ["0xec2990f2", "0xd85ab8c2", "0x5a10a2c0", "0x81deabbe", "0xb1d38abc"]]  # For prototype
+        self.swipe_interval = SWIPE_INTERVAL
+        self.swipe_show = 1/len(self.bots[0])  # Swipe lasts 1s regardless of bot length
 
     def calculate_serial_number(self):
         return hex(machine.mem32[268435556] & 4294967295)
@@ -78,7 +79,7 @@ class Server:
 
             if len(text) == 1: break
 
-            time.sleep(SWIPE_INTERVAL)
+            time.sleep(self.swipe_interval)
             rows = len(self.bots)
             bots_per_row = len(self.bots[0])
             brightness = {"9": [0, []],
@@ -112,7 +113,7 @@ class Server:
                         self.instruct(recipient=recipient)
 
                 for k in brightness: brightness[k][0] += 1
-                time.sleep(SWIPE_SHOW)
+                time.sleep(self.swipe_show)
 
             self.instruct()
 

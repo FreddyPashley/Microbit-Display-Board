@@ -3,7 +3,7 @@ import radio
 import machine
 import random
 
-VERSION = "v0.8"
+VERSION = "v0.9"
 
 
 class Client:
@@ -13,7 +13,6 @@ class Client:
         radio.off()
         self.version = VERSION
         self.serial = str(self.calculate_serial_number())
-        self.location = None
 
     def calculate_serial_number(self):
         return hex(machine.mem32[268435556] & 4294967295)
